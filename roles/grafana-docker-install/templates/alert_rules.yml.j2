@@ -1,0 +1,13 @@
+groups:
+  - name: example_alert_rules
+    rules:
+      {% for rule in rules %}
+      - alert: {{ rule.alert }}
+        expr: {{ rule.expr }}
+        for: {{ rule.for }}
+        labels:
+          severity: {{ rule.labels.severity }}
+        annotations:
+          summary: "{{ '{{' }} $labels.instance }}"
+          description: "CPU usage is above 80% for more than 1 minute.\n  VALUE = {{ '{{' }} $value }}\n  LABELS = {{ '{{' }} $labels }}"
+      {% endfor %}

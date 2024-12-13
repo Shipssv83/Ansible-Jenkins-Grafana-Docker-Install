@@ -1,0 +1,19 @@
+---
+
+- name: download ufw project
+  get_url:
+    url: '{{ url_ufw_docker }}'
+    dest: '{{ dest_ufw_docker }}'
+    mode: '0751'
+
+- name: ufw project install
+  ansible.builtin.shell: /usr/local/bin/ufw-project install
+  register: output1
+
+- name: restarted service ufw
+  systemd:
+    name: ufw.service
+    state: restarted
+
+- ansible.builtin.debug:
+    var: output1

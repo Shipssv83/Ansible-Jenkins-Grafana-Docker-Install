@@ -1,0 +1,23 @@
+---
+- name: create dirs
+  ansible.builtin.file:
+    path: "{{ path }}"
+    state: directory
+    mode: "0755"
+    recurse: true
+
+- name: transfer project compose files
+  ansible.builtin.template:
+    src: project-compose.yml.j2
+    dest: "{{ path }}/project-compose.yml"
+
+- name: deploy project compose stack
+  community.docker.docker_compose:
+    project_src: "{{ path }}"
+    files: project-compose.yml
+    state: present
+  ignore_errors: true
+  register: output
+
+- ansible.builtin.debug:
+    var: output

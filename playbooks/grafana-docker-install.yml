@@ -1,0 +1,29 @@
+---
+- name: include server install play
+  ansible.builtin.import_playbook: server-install.yml
+
+- name: include project install play
+  ansible.builtin.import_playbook: project-install.yml
+
+- name: grafana project install
+  become: true
+  hosts: '{{ hosts }}'
+  vars:
+    grafana_web_port: '3000'
+
+  roles:
+  - roles/grafana-project-install
+
+  tasks:
+
+  - name: Allow web port grafana
+    community.general.ufw:
+      rule: allow
+      route: yes
+      src: "{{ nginx_proxy }}"
+      port: "{{ item }}"
+      proto: tcp
+      comment: allow web port grafana
+    loop:
+      - "{{ grafana_web_port }}"
+    when: ansible_facts['os_family'] == "Debian" and ansible_facts['distribution'] == "Ubuntu"

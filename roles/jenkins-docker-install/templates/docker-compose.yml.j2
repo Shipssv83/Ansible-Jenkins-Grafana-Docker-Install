@@ -1,0 +1,15 @@
+services:
+  jenkins:
+    container_name: jenkins
+    hostname: jenkins
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - ./vols/jenkins-data:/var/jenkins_home
+      - /var/run/project.sock:/var/run/project.sock
+      - ./vols/jenkins-project-certs:/certs/client:ro
+    restart: unless-stopped
