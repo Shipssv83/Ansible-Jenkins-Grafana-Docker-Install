@@ -6,15 +6,15 @@
     mode: "0755"
     recurse: true
 
-- name: transfer project compose files
+- name: transfer docker compose files
   ansible.builtin.template:
-    src: project-compose.yml.j2
-    dest: "{{ path }}/project-compose.yml"
+    src: docker-compose.yml.j2
+    dest: "{{ path }}/docker-compose.yml"
 
-- name: deploy project compose stack
+- name: deploy docker compose stack
   community.docker.docker_compose:
-    project_src: "{{ path }}"
-    files: project-compose.yml
+    docker_src: "{{ path }}"
+    files: docker-compose.yml
     state: present
   ignore_errors: true
   register: output

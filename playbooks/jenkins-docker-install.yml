@@ -2,10 +2,10 @@
 - name: include server install play
   ansible.builtin.import_playbook: server-install.yml
 
-- name: include project install play
-  ansible.builtin.import_playbook: project-install.yml
+- name: include docker install play
+  ansible.builtin.import_playbook: docker-install.yml
   
-- name: jenkins project install
+- name: jenkins docker install
   become: true
   hosts: '{{ hosts }}'
   vars:
@@ -14,7 +14,7 @@
     jenkins_web_port: '8080'
 
   roles:
-  - roles/jenkins-project-install
+  - roles/jenkins-docker-install
 
   tasks:
 

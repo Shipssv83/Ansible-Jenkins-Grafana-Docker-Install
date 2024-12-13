@@ -2,17 +2,17 @@
 - name: include server install play
   ansible.builtin.import_playbook: server-install.yml
 
-- name: include project install play
-  ansible.builtin.import_playbook: project-install.yml
+- name: include docker install play
+  ansible.builtin.import_playbook: docker-install.yml
 
-- name: grafana project install
+- name: grafana docker install
   become: true
   hosts: '{{ hosts }}'
   vars:
     grafana_web_port: '3000'
 
   roles:
-  - roles/grafana-project-install
+  - roles/grafana-docker-install
 
   tasks:
 
